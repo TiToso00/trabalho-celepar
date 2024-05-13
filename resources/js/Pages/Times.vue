@@ -24,7 +24,7 @@
                 <div class="box-body px-5 py-3">
                     <!-- Conteúdo da página "Times" -->
                     <p>
-                        Aqui você pode adicionar o conteúdo específico da página "Times".
+                        Aqui vao os CRUDs.
                     </p>
                 </div>
             </div>
