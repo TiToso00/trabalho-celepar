@@ -1,6 +1,7 @@
 <?php
-use App\Http\Controllers\TimeController;
+
 use Inertia\Inertia;
+use App\Http\Controllers\TimeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoltController;
 use App\Http\Controllers\MediaController;
@@ -52,6 +53,7 @@ Route::get('message', function () {
     return redirect()->back();
 });
 
+Route::resource('times', TimeController::class);
 Route::get('times', function () {
     return Inertia::render('Times');
 });
