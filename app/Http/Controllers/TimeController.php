@@ -10,7 +10,7 @@ class TimeController extends Controller
     public function index()
     {
         $times = Time::all();
-        return view('times.index', compact('times'));
+        return inertia('Times/Times', compact('times'));
     }
 
     public function show(Time $time)
@@ -20,7 +20,7 @@ class TimeController extends Controller
 
     public function create()
     {
-        return view('times.form');
+        return inertia('Times/CreateTimes');
     }
 
     public function store(Request $request)
@@ -60,12 +60,4 @@ class TimeController extends Controller
         return redirect()->route('times.index')->with('success', 'Time atualizado com sucesso!');
     }
 
-    public function destroy(Time $time)
-    {
-        // Exclusão do time
-        $time->delete();
-
-        // Redirecionamento com mensagem de sucesso
-        return redirect()->route('times.index')->with('success', 'Time excluído com sucesso!');
-    }
 }

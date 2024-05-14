@@ -54,9 +54,9 @@ Route::get('message', function () {
 });
 
 Route::resource('times', TimeController::class);
-Route::get('times', function () {
-    return Inertia::render('Times');
-});
+//Route::get('times', function () {
+//    return Inertia::render('Times');
+//});
 
 
 

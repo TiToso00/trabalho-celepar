@@ -14,7 +14,7 @@
 
                 <div class="box-header with-border d-flex justify-content-between align-items-center">
                     <h4>
-                        Listagem de Times
+                        Listagem de
                     </h4>
                     <!-- Botão para adicionar um novo time -->
                     <button @click="criarNovoTime" class="btn btn-primary">
