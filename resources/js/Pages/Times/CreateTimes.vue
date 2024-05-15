@@ -65,7 +65,7 @@ const criarTime = async () => {
     // Verificar se a requisição foi bem-sucedida
     if (response.ok) {
         // Redirecionar para a página de listagem de times após criar o novo time
-        router.push('/Times');
+        router.push('/Times/Times');
     } else {
         // Exibir mensagem de erro
         console.error('Erro ao criar o time');
