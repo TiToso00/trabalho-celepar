@@ -9,13 +9,15 @@ class TimeController extends Controller
 {
     public function index()
     {
+
+
         $times = Time::all();
         return inertia('Times/Times', compact('times'));
     }
 
     public function show(Time $time)
     {
-        return view('times.show', compact('time'));
+        return inertia('times.show', compact('time'));
     }
 
     public function create()
@@ -59,5 +61,4 @@ class TimeController extends Controller
         // Redirecionamento com mensagem de sucesso
         return redirect()->route('times.index')->with('success', 'Time atualizado com sucesso!');
     }
-
 }

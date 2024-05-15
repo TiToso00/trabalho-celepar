@@ -14,7 +14,7 @@
 
                 <div class="box-header with-border d-flex justify-content-between align-items-center">
                     <h4>
-                        Listagem de
+                        Listagem de Times
                     </h4>
                     <!-- Botão para adicionar um novo time -->
                     <button @click="criarNovoTime" class="btn btn-primary">
@@ -55,6 +55,6 @@ import { useRouter } from 'vue-router';
 const criarNovoTime = () => {
     const router = useRouter();
     // Redirecionar para a página de criação de time
-    router.push('/novo-time');
+    router.push('/create-time');
 };
 </script>
