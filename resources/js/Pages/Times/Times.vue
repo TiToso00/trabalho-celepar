@@ -1,11 +1,18 @@
 <template>
-    <Layout sidebar="sobre">
-        <Head title="Times"/>
+    <Layout sidebar="Times">
+        <Head title="Form Index"/>
 
         <PageInfo
-            pageIcon="fa fa-bolt"
-            pageTitle="Times"
+            pageIcon="fa fa-keyboard-o"
+            pageTitle="Times "
         >
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active">
+                        Times
+                    </li>
+                </ol>
+            </nav>
         </PageInfo>
 
         <div class="container-fluid pt-2">
@@ -13,48 +20,59 @@
             <div class="box box-primary">
 
                 <div class="box-header with-border d-flex justify-content-between align-items-center">
-                    <h4>
-                        Listagem de Times
-                    </h4>
-                    <!-- Botão para adicionar um novo time -->
-                    <button @click="criarNovoTime" class="btn btn-primary">
-                        Novo
-                    </button>
-                </div>
+                    <h3>Listagem de Times</h3>
 
-                <div class="box-body">
-                    <!-- Tabela de times -->
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Ano de Fundação</th>
-                            <th scope="col">Cidade</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <!-- Substitua esta linha pela repetição dos dados dos times -->
-                        <tr>
-                            <td>Nome do Time</td>
-                            <td>2000</td>
-                            <td>Cidade do Time</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <Link :href="route('times.create')" as="button" class="btn btn-primary btn-lg d-flex align-items-center gap-1" type="button">
+                        <i class="fa fa-plus-circle fa-2x"></i>
+                        <span>Novo</span>
+                    </Link>
+
                 </div>
             </div>
 
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </Layout>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import Pagination from "@/Shared/Pagination";
+import { useFilter } from "@/Components/Filter/Composables/useFilter";
+import { usePersistScroll } from "@/Composables/usePersistScroll";
+import { Inertia } from "@inertiajs/inertia";
 
-// Função para criar um novo time
-const criarNovoTime = () => {
-    const router = useRouter();
-    // Redirecionar para a página de criação de time
-    router.push('/create-time');
-};
+
+
+
+
+
+
+
+
+
+
+
 </script>
+
+<style scoped>
+tr.warning {
+    background-color: #fff3cd;
+}
+
+.pointer {
+    cursor: pointer !important;
+}
+</style>
