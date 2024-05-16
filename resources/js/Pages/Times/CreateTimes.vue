@@ -50,7 +50,7 @@ const router = useRouter();
 // Função para criar um novo time
 const criarTime = async () => {
     // Requisição POST para enviar os dados do novo time para o servidor
-    const response = await fetch('/Times/Times', {
+    const response = await fetch('/times', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

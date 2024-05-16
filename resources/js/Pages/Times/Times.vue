@@ -1,78 +1,55 @@
 <template>
-    <Layout sidebar="Times">
-        <Head title="Form Index"/>
+    <Layout sidebar="sobre">
+        <Head title="Times"/>
 
         <PageInfo
-            pageIcon="fa fa-keyboard-o"
-            pageTitle="Times "
+            pageIcon="fa fa-bolt"
+            pageTitle="Times"
         >
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">
-                        Times
-                    </li>
-                </ol>
-            </nav>
         </PageInfo>
 
         <div class="container-fluid pt-2">
-
             <div class="box box-primary">
-
                 <div class="box-header with-border d-flex justify-content-between align-items-center">
-                    <h3>Listagem de Times</h3>
-
-                    <Link :href="route('times.create')" as="button" class="btn btn-primary btn-lg d-flex align-items-center gap-1" type="button">
-                        <i class="fa fa-plus-circle fa-2x"></i>
-                        <span>Novo</span>
-                    </Link>
-
+                    <h4>Listagem de Times</h4>
+                    <button @click="irParaCriarTime" class="btn btn-primary">Novo</button>
+                </div>
+                <div class="box-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Ano de Fundação</th>
+                            <th scope="col">Cidade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="time in times" :key="time.id">
+                            <td>{{ time.nome }}</td>
+                            <td>{{ time.ano_fundacao }}</td>
+                            <td>{{ time.cidade }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </Layout>
 </template>
 
 <script setup>
-import Pagination from "@/Shared/Pagination";
-import { useFilter } from "@/Components/Filter/Composables/useFilter";
-import { usePersistScroll } from "@/Composables/usePersistScroll";
-import { Inertia } from "@inertiajs/inertia";
+import { ref, onMounted } from 'vue';
 
+const times = ref([]);
 
+const buscarTimes = async () => {
+    const response = await fetch('/times');
+    times.value = await response.json();
+};
 
+const irParaCriarTime = () => {
+    window.location.href = '/times/create';
+};
 
-
-
-
-
-
-
-
-
+onMounted(buscarTimes);
 </script>
-
-<style scoped>
-tr.warning {
-    background-color: #fff3cd;
-}
-
-.pointer {
-    cursor: pointer !important;
-}
-</style>

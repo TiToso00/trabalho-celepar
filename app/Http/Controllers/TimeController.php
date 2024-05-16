@@ -28,6 +28,7 @@ class TimeController extends Controller
     public function store(Request $request)
     {
         // Validação dos dados
+
         $request->validate([
             'nome' => 'required|string',
             'cidade' => 'required|string',
@@ -38,13 +39,9 @@ class TimeController extends Controller
         Time::create($request->all());
 
         // Redirecionamento com mensagem de sucesso
-        return redirect()->route('times.index')->with('success', 'Time criado com sucesso!');
+        return response()->json(['success' => true]);
     }
 
-    public function edit(Time $time)
-    {
-        return view('times.form', compact('time'));
-    }
 
     public function update(Request $request, Time $time)
     {
