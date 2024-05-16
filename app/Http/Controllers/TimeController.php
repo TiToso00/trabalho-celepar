@@ -39,7 +39,8 @@ class TimeController extends Controller
         Time::create($request->all());
 
         // Redirecionamento com mensagem de sucesso
-        return response()->json(['success' => true]);
+
+        return redirect()->route('times.index');
     }
 
 

@@ -39,17 +39,21 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+//
+// const times = ref([]);
+//
+// const buscarTimes = async () => {
+//     const response = await fetch('/times');
+//     times.value = await response.json();
+// };
 
-const times = ref([]);
-
-const buscarTimes = async () => {
-    const response = await fetch('/times');
-    times.value = await response.json();
-};
+const props = defineProps({
+    times: Object,
+})
 
 const irParaCriarTime = () => {
     window.location.href = '/times/create';
 };
 
-onMounted(buscarTimes);
+//onMounted(buscarTimes);
 </script>
