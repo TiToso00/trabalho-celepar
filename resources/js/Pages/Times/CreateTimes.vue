@@ -12,23 +12,24 @@
                 <div class="col-md-6 offset-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <form @submit.prevent="criarTime">
-                                <div class="mb-3">
-                                    <label for="nome" class="form-label">Nome do Time:</label>
-                                    <input type="text" class="form-control" id="nome" v-model="form.nome">
-                                </div>
+                            <div class="mb-3">
+                                <label for="cidade" class="form-label">Cidade ou Time:</label>
+                                <Autocomplete
+                                    v-model="form.cidade"
+                                    :search="searchLocalidadesETimes"
+                                    placeholder="Digite a cidade ou time"
+                                    debounce="300"
+                                />
+                            </div>
                                 <div class="mb-3">
                                     <label for="ano_fundacao" class="form-label">Ano de Fundação:</label>
                                     <input type="number" class="form-control" id="ano_fundacao" v-model="form.ano_fundacao">
                                 </div>
+
+                            <form @submit.prevent="criarTime">
                                 <div class="mb-3">
-                                    <label for="cidade" class="form-label">Cidade ou Time:</label>
-                                    <Autocomplete
-                                        v-model="form.cidade"
-                                        :search="searchLocalidadesETimes"
-                                        placeholder="Digite a cidade ou time"
-                                        debounce="300"
-                                    />
+                                    <label for="nome" class="form-label">Nome do Time:</label>
+                                    <input type="text" class="form-control" id="nome" v-model="form.nome">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Criar Time</button>
                             </form>
@@ -105,5 +106,32 @@ const searchLocalidadesETimes = async (query) => {
 </script>
 
 <style scoped>
-/* Adicione estilos específicos se necessário */
+.autocomplete-results {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    border-top: none;
+    border-radius: 0 0 5px 5px; /* Adiciona borda arredondada apenas na parte inferior */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destacar a lista */
+}
+
+.autocomplete-result {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Adiciona uma transição suave na mudança de cor de fundo */
+}
+
+.autocomplete-result:hover {
+    background-color: #f8f9fa; /* Altera a cor de fundo ao passar o mouse */
+}
+
+.city:hover {
+    color: red; /* Altera a cor do texto para vermelho quando o mouse está sobre cidades */
+}
 </style>
+
+
+
+
+
+
