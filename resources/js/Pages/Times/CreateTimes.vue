@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { useForm } from "@inertiajs/inertia-vue3";
+import {useRouter} from 'vue-router';
+import {useForm} from "@inertiajs/inertia-vue3";
 import axios from 'axios';
 import Autocomplete from '@trevoreyre/autocomplete-vue';
 
@@ -50,16 +50,20 @@ const form = useForm({
     nome: '',
     ano_fundacao: 0,
     cidade: '',
-})
+});
 
 const router = useRouter();
 
 const criarTime = async () => {
-    const response = await form.post(route('times.store'))
-    if (response.success) {
-        router.push('/Times/Times');
-    } else {
-        console.error('Erro ao criar o time');
+    try {
+        const response = await form.post(route('times.store'));
+        if (response.success) {
+            router.push('/Times/Times');
+        } else {
+            console.error('Erro ao criar o time');
+        }
+    } catch (error) {
+        console.error('Erro ao criar o time:', error);
     }
 };
 
@@ -75,21 +79,28 @@ const searchLocalidade = async (query) => {
     }
 };
 
-const searchTimesCartola = async (query) => {
+const searchTimesBrasileiros = async (query) => {
     try {
-        const response = await axios.get(`https://api.cartolafc.globo.com/clubes`);
-        const times = response.data.map(time => time.nome);
+        const token = 'w4vDBeJiyzyvSnUXyLB7T4gRy1N9vTebjMmNWuh5ZgFUhjGk4WJFJ7BKPNQV'; // Insira seu token aqui
+        const response = await axios.get('https://api.sportmonks.com/v2.0/teams', {
+            params: {
+                include: 'country',
+                filter: {country_id: 39}, // ID do Brasil (39)
+                api_token: token
+            }
+        });
+        const times = response.data.data.map(time => time.name);
         return times.filter(time => time.toLowerCase().includes(query.toLowerCase()));
     } catch (error) {
-        console.error('Erro ao buscar times pelo Cartola FC:', error);
+        console.error('Erro ao buscar times brasileiros:', error);
         return [];
     }
 };
 
 const searchLocalidadesETimes = async (query) => {
     const cidades = await searchLocalidade(query);
-    const timesCartola = await searchTimesCartola(query);
-    return [...cidades, ...timesCartola];
+    const timesBrasileiros = await searchTimesBrasileiros(query);
+    return [...cidades, ...timesBrasileiros];
 };
 </script>
 
