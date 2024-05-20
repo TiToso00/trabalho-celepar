@@ -13,23 +13,28 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="mb-3">
-                                <label for="cidade" class="form-label">Cidade ou Time:</label>
+                                <label for="cidade" class="form-label">Cidade</label>
                                 <Autocomplete
                                     v-model="form.cidade"
-                                    :search="searchLocalidadesETimes"
-                                    placeholder="Digite a cidade ou time"
+                                    :search="searchLocalidade"
+                                    placeholder="Digite a cidade"
                                     debounce="300"
                                 />
                             </div>
-                                <div class="mb-3">
-                                    <label for="ano_fundacao" class="form-label">Ano de Fundação:</label>
-                                    <input type="number" class="form-control" id="ano_fundacao" v-model="form.ano_fundacao">
-                                </div>
+                            <div class="mb-3">
+                                <label for="ano_fundacao" class="form-label">Ano de Fundação:</label>
+                                <input type="number" class="form-control" id="ano_fundacao" v-model="form.ano_fundacao">
+                            </div>
 
                             <form @submit.prevent="criarTime">
                                 <div class="mb-3">
                                     <label for="nome" class="form-label">Nome do Time:</label>
-                                    <input type="text" class="form-control" id="nome" v-model="form.nome">
+                                    <Autocomplete
+                                        v-model="form.nome"
+                                        :search="searchTimesBrasileiros"
+                                        placeholder="Digite o nome do time"
+                                        debounce="300"
+                                    />
                                 </div>
                                 <button type="submit" class="btn btn-primary">Criar Time</button>
                             </form>
@@ -82,26 +87,13 @@ const searchLocalidade = async (query) => {
 
 const searchTimesBrasileiros = async (query) => {
     try {
-        const token = 'w4vDBeJiyzyvSnUXyLB7T4gRy1N9vTebjMmNWuh5ZgFUhjGk4WJFJ7BKPNQV'; // Insira seu token aqui
-        const response = await axios.get('https://api.sportmonks.com/v2.0/teams', {
-            params: {
-                include: 'country',
-                filter: {country_id: 39}, // ID do Brasil (39)
-                api_token: token
-            }
-        });
-        const times = response.data.data.map(time => time.name);
+        const response = await axios.get('https://raw.githubusercontent.com/henrique-borba/futebol-data/master/teams.json');
+        const times = response.data.map(time => time.nome); // Certifique-se de que os dados estão no formato adequado
         return times.filter(time => time.toLowerCase().includes(query.toLowerCase()));
     } catch (error) {
         console.error('Erro ao buscar times brasileiros:', error);
         return [];
     }
-};
-
-const searchLocalidadesETimes = async (query) => {
-    const cidades = await searchLocalidade(query);
-    const timesBrasileiros = await searchTimesBrasileiros(query);
-    return [...cidades, ...timesBrasileiros];
 };
 </script>
 
@@ -129,9 +121,3 @@ const searchLocalidadesETimes = async (query) => {
     color: red; /* Altera a cor do texto para vermelho quando o mouse está sobre cidades */
 }
 </style>
-
-
-
-
-
-
