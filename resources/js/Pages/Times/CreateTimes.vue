@@ -47,24 +47,25 @@
 </template>
 
 <script setup>
+
 import { useRouter } from 'vue-router';
 import { useForm } from "@inertiajs/inertia-vue3";
 import axios from 'axios';
 import Autocomplete from '@trevoreyre/autocomplete-vue';
 
 const form = useForm({
-    nome: '',
-    ano_fundacao: 0,
     cidade: '',
+    ano_fundacao: 0,
+    nome: '',
 });
 
 const router = useRouter();
 
 const criarTime = async () => {
     try {
-        const response = await form.post(route('times.store'));
-        if (response.success) {
-            router.push('/Times/Times');
+        const response = await axios.post('/times');
+        if (response.status === 200) {
+            router.push('/times');
         } else {
             console.error('Erro ao criar o time');
         }
