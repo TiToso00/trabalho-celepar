@@ -47,8 +47,8 @@
 </template>
 
 <script setup>
-import {useRouter} from 'vue-router';
-import {useForm} from "@inertiajs/inertia-vue3";
+import { useRouter } from 'vue-router';
+import { useForm } from "@inertiajs/inertia-vue3";
 import axios from 'axios';
 import Autocomplete from '@trevoreyre/autocomplete-vue';
 
@@ -86,9 +86,10 @@ const searchLocalidade = async (query) => {
 };
 
 const searchTimesBrasileiros = async (query) => {
+    if (query.length < 2) return [];
     try {
-        const response = await axios.get('https://raw.githubusercontent.com/henrique-borba/futebol-data/master/teams.json');
-        const times = response.data.map(time => time.nome); // Certifique-se de que os dados estão no formato adequado
+        const response = await axios.get('/times-brasileiros.json');
+        const times = response.data.map(time => time.nome);
         return times.filter(time => time.toLowerCase().includes(query.toLowerCase()));
     } catch (error) {
         console.error('Erro ao buscar times brasileiros:', error);
@@ -103,21 +104,21 @@ const searchTimesBrasileiros = async (query) => {
     overflow-y: auto;
     border: 1px solid #ced4da;
     border-top: none;
-    border-radius: 0 0 5px 5px; /* Adiciona borda arredondada apenas na parte inferior */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destacar a lista */
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .autocomplete-result {
     padding: 8px 12px;
     cursor: pointer;
-    transition: background-color 0.3s; /* Adiciona uma transição suave na mudança de cor de fundo */
+    transition: background-color 0.3s;
 }
 
 .autocomplete-result:hover {
-    background-color: #f8f9fa; /* Altera a cor de fundo ao passar o mouse */
+    background-color: #f8f9fa;
 }
 
 .city:hover {
-    color: red; /* Altera a cor do texto para vermelho quando o mouse está sobre cidades */
+    color: red;
 }
 </style>
