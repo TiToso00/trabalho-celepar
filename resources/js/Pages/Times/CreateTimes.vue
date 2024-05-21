@@ -25,7 +25,6 @@
                                 <label for="ano_fundacao" class="form-label">Ano de Fundação:</label>
                                 <input type="number" class="form-control" id="ano_fundacao" v-model="form.ano_fundacao">
                             </div>
-
                             <form @submit.prevent="criarTime">
                                 <div class="mb-3">
                                     <label for="nome" class="form-label">Nome do Time:</label>
@@ -47,7 +46,6 @@
 </template>
 
 <script setup>
-
 import { useRouter } from 'vue-router';
 import { useForm } from "@inertiajs/inertia-vue3";
 import axios from 'axios';
@@ -55,7 +53,7 @@ import Autocomplete from '@trevoreyre/autocomplete-vue';
 
 const form = useForm({
     cidade: '',
-    ano_fundacao: 0,
+    ano_fundacao: '',
     nome: '',
 });
 
@@ -63,27 +61,27 @@ const router = useRouter();
 
 const criarTime = async () => {
     try {
-        const response = await axios.post('/times');
-        if (response.status === 200) {
+        const response = await axios.post('/times', {
+            cidade: form.cidade,
+            ano_fundacao: form.ano_fundacao,
+            nome: form.nome,
+        });
+        if (response.status === 201) {
             router.push('/times');
         } else {
-            console.error('Erro ao criar o time');
+            console.error('Erro ao criar o time:', response.data);
         }
     } catch (error) {
-        console.error('Erro ao criar o time:', error);
+        if (error.response && error.response.status === 422) {
+            console.error('Erro de validação:', error.response.data.errors);
+        } else {
+            console.error('Erro ao criar o time:', error);
+        }
     }
 };
 
 const searchLocalidade = async (query) => {
-    if (query.length < 2) return [];
-    try {
-        const response = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios`);
-        const localidades = response.data.map(localidade => localidade.nome);
-        return localidades.filter(localidade => localidade.toLowerCase().includes(query.toLowerCase()));
-    } catch (error) {
-        console.error('Erro ao buscar localidades:', error);
-        return [];
-    }
+
 };
 
 const searchTimesBrasileiros = async (query) => {
