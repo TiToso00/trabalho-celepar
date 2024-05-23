@@ -12,20 +12,20 @@
                 <div class="col-md-6 offset-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="mb-3">
-                                <label for="cidade" class="form-label">Cidade</label>
-                                <Autocomplete
-                                    v-model="form.cidade"
-                                    :search="searchLocalidade"
-                                    placeholder="Digite a cidade"
-                                    debounce="300"
-                                />
-                            </div>
-                            <div class="mb-3">
-                                <label for="ano_fundacao" class="form-label">Ano de Fundação:</label>
-                                <input type="number" class="form-control" id="ano_fundacao" v-model="form.ano_fundacao">
-                            </div>
                             <form @submit.prevent="criarTime">
+                                <div class="mb-3">
+                                    <label for="cidade" class="form-label">Cidade</label>
+                                    <Autocomplete
+                                        v-model="form.cidade"
+                                        :search="searchLocalidade"
+                                        placeholder="Digite a cidade"
+                                        debounce="300"
+                                    />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ano_fundacao" class="form-label">Ano de Fundação:</label>
+                                    <input type="number" class="form-control" id="ano_fundacao" v-model="form.ano_fundacao">
+                                </div>
                                 <div class="mb-3">
                                     <label for="nome" class="form-label">Nome do Time:</label>
                                     <Autocomplete
@@ -81,7 +81,14 @@ const criarTime = async () => {
 };
 
 const searchLocalidade = async (query) => {
-
+    if (query.length < 2) return [];
+    try {
+        const response = await axios.get(`/api/cidades/${query}`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao buscar localidades:', error);
+        return [];
+    }
 };
 
 const searchTimesBrasileiros = async (query) => {

@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Time;
 use Illuminate\Http\Request;
+use Exception;
 
 class cidadeController extends Controller
 {
-
-
     public function buscarCidades($query)
     {
         if (strlen($query) < 2) {
-            return [];
+            return response()->json([]);
         }
 
         try {
@@ -22,14 +20,13 @@ class cidadeController extends Controller
                 return $localidade['nome'];
             }, $data);
 
-            return array_filter($localidades, function ($localidade) use ($query) {
+            $resultados = array_filter($localidades, function ($localidade) use ($query) {
                 return stripos($localidade, $query) !== false;
             });
+
+            return response()->json(array_values($resultados));
         } catch (Exception $error) {
-            echo 'Erro ao buscar localidades: ' . $error->getMessage();
-            return [];
+            return response()->json(['error' => 'Erro ao buscar localidades: ' . $error->getMessage()], 500);
         }
     }
 }
-
-
